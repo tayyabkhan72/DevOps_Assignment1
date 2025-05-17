@@ -20,7 +20,7 @@ function Login() {
           navigate("/home");
         }
       })
-      .catch(alert("Wrong Credentials "));
+      .catch(() => alert("Wrong Credentials "));
   };
 
   return (
