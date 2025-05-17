@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN npm ci
-COPY client/ ./
+COPY . .
 
 # run your actual build command (e.g. npm run build)
 # and make sure it outputs into dist/

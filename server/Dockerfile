@@ -7,7 +7,7 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 # copy source & expose
-COPY / ./
+COPY . .
 EXPOSE 5000
 
 CMD ["npm", "start"]
