@@ -11,6 +11,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Attempting to login...");
     axios
       .post("http://3.95.191.166:5000/login", { email, password })
       .then((result) => {
