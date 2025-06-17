@@ -13,7 +13,7 @@ function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/register", { name, email, password })
+      .post("http://3.95.191.166:5000/register", { name, email, password })
       .then((result) => {
         alert("Account created successfully!");
         console.log(result);

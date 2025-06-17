@@ -12,14 +12,14 @@ function Home() {
   const [todos, setTodos] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/get")
+      .get("http://3.95.191.166:5000/get")
       .then((result) => setTodos(result.data))
       .catch((err) => console.log(err));
   }, []);
 
   const handleEdit = (id) => {
     axios
-      .put("http://localhost:5000/update/" + id, { done: true })
+      .put("http://3.95.191.166:5000/update/" + id, { done: true })
       .then((result) => {
         location.reload();
       })
@@ -27,7 +27,7 @@ function Home() {
   };
   const handleDelete = (id) => {
     axios
-      .delete("http://localhost:5000/delete/" + id)
+      .delete("http://3.95.191.166:5000/delete/" + id)
       .then((result) => {
         location.reload();
       })

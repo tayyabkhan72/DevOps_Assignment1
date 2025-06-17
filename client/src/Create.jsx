@@ -6,7 +6,7 @@ function Create() {
   const handleAdd = () => {
     if (!task) return;
     axios
-      .post("http://localhost:5000/home", { task: task })
+      .post("http://3.95.191.166:5000/home", { task: task })
       .then((result) => {
         location.reload();
       })
