@@ -12,6 +12,11 @@ RUN npm run build
 
 # 2. serve with nginx
 FROM nginx:stable-alpine
+
+# --- THIS IS THE NEW LINE TO ADD ---
+# Copy our custom nginx config that handles SPA routing
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # copy the dist folder (not build)
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 
