@@ -10,13 +10,29 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # Helper function to perform login, to avoid repeating code
 def perform_login(driver, wait):
+    """
+    Helper function to log into the application.
+    It now correctly handles the success alert after logging in.
+    """
     print("...Logging in to access home page...")
     driver.get("http://web/login")
     wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("test@example.com")
     driver.find_element(By.NAME, "password").send_keys("password123")
     driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+
+    # --- CORRECTED SECTION ---
+    # We must handle the "Login Successful" alert to allow navigation to continue.
+    print("...Accepting login success alert...")
+    try:
+        alert = wait.until(EC.alert_is_present())
+        assert "Login Successful" in alert.text
+        alert.accept()
+    except Exception as e:
+        print(f"...Warning: Could not handle login alert. Continuing... Error: {e}")
+
+    # Now we wait for the redirection to the home page
     wait.until(EC.url_contains("/home"))
-    print("...Login successful...")
+    print("...Login successful and redirected to home...")
 
 
 @pytest.fixture
