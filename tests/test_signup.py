@@ -29,7 +29,7 @@ def test_successful_registration(driver):
     unique_email = f"testuser_{int(time.time())}@example.com"
     
     print("Navigating to /register page...")
-    driver.get("http://web:8081/register")
+    driver.get("http://web/register")
     
     wait = WebDriverWait(driver, 10)
 
@@ -56,7 +56,7 @@ def test_registration_with_empty_fields(driver):
     print("\n--- Starting Test: Registration With Empty Fields ---")
 
     print("Navigating to /register page...")
-    driver.get("http://web:8081/register")
+    driver.get("http://web/register")
 
     wait = WebDriverWait(driver, 10)
 
