@@ -33,8 +33,8 @@ def test_login_with_correct_credentials(driver):
     print("Finding and filling out the login form with correct credentials...")
     # CORRECTED: Using the standard test user for consistency.
     # IMPORTANT: This user must exist in your database.
-    wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("test@example.com")
-    driver.find_element(By.NAME, "password").send_keys("password123")
+    wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("tayyab.khan72")
+    driver.find_element(By.NAME, "password").send_keys("tayyab47khan")
     
     print("Clicking the 'Login' button...")
     driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()

@@ -36,8 +36,8 @@ def test_successful_registration(driver):
 
     print("Finding and filling out the registration form...")
     wait.until(EC.visibility_of_element_located((By.NAME, "name"))).send_keys("Test User")
-    driver.find_element(By.NAME, "email").send_keys(unique_email)
-    driver.find_element(By.NAME, "password").send_keys("password123")
+    driver.find_element(By.NAME, "email").send_keys("tester1")
+    driver.find_element(By.NAME, "password").send_keys("tester1")
     
     print("Clicking the 'Register' button...")
     driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()

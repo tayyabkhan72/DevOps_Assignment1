@@ -16,8 +16,8 @@ def perform_login(driver, wait):
     """
     print("...Logging in to access home page...")
     driver.get("http://web/login")
-    wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("test@example.com")
-    driver.find_element(By.NAME, "password").send_keys("password123")
+    wait.until(EC.visibility_of_element_located((By.NAME, "email"))).send_keys("tayyab.khan72")
+    driver.find_element(By.NAME, "password").send_keys("tayyab47khan")
     driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
 
     # --- CORRECTED SECTION ---
