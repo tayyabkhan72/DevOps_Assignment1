@@ -1,22 +1,15 @@
-// The final, recommended Jenkinsfile
+// A simplified and reliable Jenkinsfile without GitHub status notifications.
 pipeline {
     agent any
 
-    environment {
-        GITHUB_CREDENTIALS = credentials('github-pat')
-    }
-
     stages {
-        stage('Set Build Status to Pending') {
-            steps {
-                updateGitCommitStatus(context: 'CI Build/Tests', state: 'PENDING', message: 'Build is running...')
-            }
-        }
-
         stage('Clean and Checkout') {
             steps {
-                cleanWs() // The standard way to clean the workspace
-                checkout scm // The standard way to check out code from the branch that triggered the build
+                // 1. Clean the workspace to ensure a fresh start.
+                cleanWs()
+                
+                // 2. Check out the latest code from the branch that was pushed.
+                checkout scm 
             }
         }
 
@@ -24,12 +17,15 @@ pipeline {
             steps {
                 script {
                     echo 'Starting application in the background for testing...'
+                    // 3. Build images and start a temporary test environment.
                     sh 'docker-compose -p todolist-test up -d --build'
 
                     echo 'Building the Docker image for the Selenium test runner...'
+                    // 4. Build the image that contains our Python + Selenium tests.
                     sh 'docker build -t selenium-runner ./tests'
-
+                    
                     echo 'Running Selenium tests...'
+                    // 5. Run the tests. If this step fails, the pipeline stops.
                     sh 'docker run --network=todolist-test_default selenium-runner'
                 }
             }
@@ -38,21 +34,10 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Tests passed! Deploying to production...'
+                // 6. If tests passed, build fresh images and deploy the application for real.
                 sh 'docker-compose -p todolist up -d --build'
             }
         }
     }
-
-    post {
-        success {
-            updateGitCommitStatus(context: 'CI Build/Tests', state: 'SUCCESS', message: 'All tests passed and deployed!')
-        }
-        failure {
-            updateGitCommitStatus(context: 'CI Build/Tests', state: 'FAILURE', message: 'Build failed. Please check Jenkins logs.')
-        }
-        always {
-            echo 'Tearing down the test environment...'
-            sh 'docker-compose -p todolist-test down --remove-orphans'
-        }
-    }
+    
 }
