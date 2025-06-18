@@ -26,7 +26,7 @@ def test_login_with_correct_credentials(driver):
     print("\n--- Starting Test: Login With Correct Credentials ---")
 
     print("Navigating to /login page...")
-    driver.get("http://web/login")
+    driver.get("http://web:8081/login")
     
     wait = WebDriverWait(driver, 10)
 
@@ -52,7 +52,7 @@ def test_login_with_wrong_credentials(driver):
     print("\n--- Starting Test: Login With Wrong Credentials ---")
 
     print("Navigating to /login page...")
-    driver.get("http://web/login")
+    driver.get("http://web:8081/login")
     
     wait = WebDriverWait(driver, 10)
 
@@ -82,7 +82,7 @@ def test_login_with_empty_fields(driver):
     print("\n--- Starting Test: Login With Empty Fields ---")
 
     print("Navigating to /login page...")
-    driver.get("http://web/login")
+    driver.get("http://web:8081/login")
 
     wait = WebDriverWait(driver, 10)
 

@@ -1,15 +1,11 @@
-// A simplified and reliable Jenkinsfile without GitHub status notifications.
 pipeline {
     agent any
 
     stages {
         stage('Clean and Checkout') {
             steps {
-                // 1. Clean the workspace to ensure a fresh start.
                 cleanWs()
-                
-                // 2. Check out the latest code from the branch that was pushed.
-                checkout scm 
+                checkout scm
             }
         }
 
@@ -17,15 +13,14 @@ pipeline {
             steps {
                 script {
                     echo 'Starting application in the background for testing...'
-                    // 3. Build images and start a temporary test environment.
-                    sh 'docker-compose -p todolist-test up -d --build'
+                    // Use the -f flag to specify our new test compose file
+                    sh 'docker-compose -f docker-compose.test.yml -p todolist-test up -d --build'
 
                     echo 'Building the Docker image for the Selenium test runner...'
-                    // 4. Build the image that contains our Python + Selenium tests.
                     sh 'docker build -t selenium-runner ./tests'
                     
                     echo 'Running Selenium tests...'
-                    // 5. Run the tests. If this step fails, the pipeline stops.
+                    // We still connect to the same test network
                     sh 'docker run --network=todolist-test_default selenium-runner'
                 }
             }
@@ -34,10 +29,17 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Tests passed! Deploying to production...'
-                // 6. If tests passed, build fresh images and deploy the application for real.
+                // The production deploy still uses the original docker-compose.yml file
                 sh 'docker-compose -p todolist up -d --build'
             }
         }
     }
     
+    post {
+        always {
+            echo 'Tearing down the test environment...'
+            // Use the -f flag here as well to tear down the correct environment
+            sh 'docker-compose -f docker-compose.test.yml -p todolist-test down --remove-orphans'
+        }
+    }
 }
